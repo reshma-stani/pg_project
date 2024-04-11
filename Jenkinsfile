@@ -1,13 +1,13 @@
 pipeline {
-    agent any
 
+    agent any
+    
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from Git repository
-                git branch: 'main', url: ' https://github.com/reshma-stani/pg_project.git '
+                // Checkout the code from the repository
+                 git branch: 'main', url: ' https://github.com/reshma-stani/pg_project.git '
             }
-
         }
         stage('Compile') {
             steps {
@@ -17,14 +17,14 @@ pipeline {
         }
         stage('Test') {
             steps {
-                // Run tests using Maven
+                // Run Maven tests
                 sh 'mvn test'
             }
         }
         stage('Package') {
             steps {
-                // Package the Maven project
-                sh 'mvn package'
+                // Clean and package the Maven project
+                sh 'mvn clean package'
             }
         }
     }
