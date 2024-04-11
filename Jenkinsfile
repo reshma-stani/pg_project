@@ -5,8 +5,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout code from Git repository
-                git 'https://github.com/reshma-stani/pg_project.git'
+                git branch: 'main', url: ' https://github.com/reshma-stani/pg_project.git '
             }
+
         }
         stage('Compile') {
             steps {
