@@ -42,7 +42,7 @@ pipeline {
             steps{
             
             // Copy the WAR file to the webapps directory in the container
-               sh 'cp /var/lib/jenkins/workspace/Industry_project/target/ABCtechnologies-1.0.war abc_tech.war'
+            // sh 'cp /var/lib/jenkins/workspace/Industry_project/target/ABCtechnologies-1.0.war abc_tech.war'
                 sh "docker build -t ${DOCKER_IMAGE}:${BUILD_NUMBER} ."
             }
         }
