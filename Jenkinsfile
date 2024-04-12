@@ -4,9 +4,6 @@ pipeline {
         maven 'mymaven'
     }
 
-        environment {
-             DOCKERHUB_CREDENTIALS=credentials('dockerhub-token')
-                }
     agent any
     
     stages {
