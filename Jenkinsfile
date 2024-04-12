@@ -47,15 +47,25 @@ pipeline {
             }
         }
         stage('Push DockerImage'){
-            steps{
+            steps{  
                // withDockerRegistery([ credentialsId: "dockerhub", url: ""])
                withDockerRegistry(credentialsId: 'f80a6223-95e8-4a88-a9af-362d5c4a129c', url: DOCKER_REGISTRY) 
                {
                     sh "docker push ${DOCKER_IMAGE}:${BUILD_NUMBER}"
                 }
-          }
-            
+            }
+        }
+            stage('Run Docker Container') {
+            steps {
+                script {
+                    docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").withRun('-p 8079:8080') 
+                    {
+                        // Any additional setup or commands to run inside the Docker container
+                        sh 'echo "Docker container is running"'
+                    }
+                }
+            }
                 
         }
-    }
+    }        
 }
