@@ -31,5 +31,23 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
+
+
+         stage('Build Image'){
+            steps{
+               sh 'cp /var/lib/jenkins/workspace/Industry_project/target/ABCtechnologies-1.0.war abc_tech.war'
+               sh 'docker build -t abcimage:$BUILD_NUMBER .'
+            }
+        }
+        stage('Push DockerImage'){
+            steps{
+                withDockerRegistery([ credentialsId: "dockerhub", url: ""])
+                {
+                    sh 'docker push reshmastani382/abcimage:$BUILD_NUMBER'
+            }
+          }
+            
+                
+        }
     }
 }
