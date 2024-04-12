@@ -41,7 +41,8 @@ pipeline {
         }
         stage('Push DockerImage'){
             steps{
-                withDockerRegistery([ credentialsId: "dockerhub", url: ""])
+               // withDockerRegistery([ credentialsId: "dockerhub", url: ""])
+               withDockerRegistry(credentialsId: 'b6b258b1-d9db-4764-9506-8573925c5d12', url: 'https://hub.docker.com/repositories/reshmastani382') 
                 {
                     sh 'docker push reshmastani382/abcimage:$BUILD_NUMBER'
             }
