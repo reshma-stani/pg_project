@@ -65,7 +65,12 @@ pipeline {
                     }
                 }
             }
-                
         }
+                stage('Deploy Docker Container with Ansible') {
+                   steps {
+                      ansiblePlaybook playbook: 'deploy_docker_container.yml', extras: "-e DOCKER_IMAGE=${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                 }
+            }              
+        
     }        
 }
