@@ -1,0 +1,13 @@
+---
+- name: Deploy Artifacts on Kubernetes
+  hosts: localhost
+  tasks:
+    - name: Copy Kubernetes manifest files
+      copy:
+        src: /path/to/kubernetes_manifests
+        dest: /tmp/kubernetes_manifests
+
+    - name: Apply Kubernetes manifest files
+      command: kubectl apply -f "{{ item }}"
+      with_fileglob:
+        - "/tmp/kubernetes_manifests/*.yaml"

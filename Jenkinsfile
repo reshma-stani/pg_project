@@ -61,16 +61,18 @@ pipeline {
                     docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").withRun('-p 8079:8080') 
                     {
                         // Any additional setup or commands to run inside the Docker container
+                        sh 'ls -la'
                         sh 'echo "Docker container is running"'
                     }
                 }
             }
         }
-                stage('Deploy Docker Container with Ansible') {
-                   steps {
-                      ansiblePlaybook playbook: 'deploy_docker_container.yml', extras: "-e DOCKER_IMAGE=${DOCKER_IMAGE}:${BUILD_NUMBER}"
-                 }
-            }              
+  //              stage('Deploy Artifacts on Kubernetes') {
+   //                 steps {
+                   //  Ansible playbook to deploy artifacts on Kubernetes
+  //                    sh 'ansible-playbook deploy_kubernetes.yml'
+    //            }
+      //  }          
         
     }        
 }

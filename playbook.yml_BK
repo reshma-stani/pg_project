@@ -1,5 +1,5 @@
-:wq---
-- name: Deploy Docker Container
+---
+- name: Build & Deploy Docker Container
   hosts: localhost
   become: true
   tasks:
@@ -7,6 +7,7 @@
       docker_image:
         name: "{{ DOCKER_IMAGE }}"
         source: pull
+        path: /
 
     - name: Run Docker Container
       docker_container:
