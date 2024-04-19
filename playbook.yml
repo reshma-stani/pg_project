@@ -25,10 +25,11 @@
         state: started
         ports:
           - "8079:8080"
-- name: Gather Docker container facts
+
+    - name: Gather Docker container facts
       docker_container_facts:
         name: my_container
-      register: container_facts
+        register: container_facts
 
     - name: Print container facts
       debug:
