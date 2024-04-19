@@ -1,7 +1,9 @@
 ---
 - name: Build & Deploy Docker Container
-  hosts: all
+  hosts: 34.170.55.162
   become: true
+  gather_facts: false
+
 
   tasks:
     - name: Pull Docker Image
