@@ -12,7 +12,7 @@
 
     - name: Remove old Docker images
       docker_image:
-        name: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
+        name: "{{ DOCKER_IMAGE }}"
         state: absent
         before_image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
 
