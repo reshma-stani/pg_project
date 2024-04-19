@@ -80,6 +80,9 @@ pipeline {
             }
         }
         stage('Run Ansible Playbook') {
+                environment {
+                    ANSIBLE_LOG_PATH = '/var/log/jenkins/ansible-playbook.log'
+                        }
             steps {
                 // Execute Ansible playbook
                 sh 'ansible-playbook playbook.yml'

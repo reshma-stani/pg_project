@@ -1,7 +1,6 @@
 ---
 - name: Build & Deploy Docker Container
   hosts: 34.170.55.162
-  become: true
   gather_facts: false
 
 
