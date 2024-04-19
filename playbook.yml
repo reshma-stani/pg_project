@@ -26,7 +26,7 @@
           - "8079:8080"
           
     - name: Gather Docker container facts
-      docker_container_facts:
+      docker_container:
         name: my_container
       register: container_facts
 
