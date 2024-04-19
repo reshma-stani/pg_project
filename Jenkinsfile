@@ -58,7 +58,7 @@ pipeline {
             stage('Run Docker Container') {
             steps {
                 script {
-                    docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").withRun('-p 8079:8080') 
+                    docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").run('-p 8079:8080') 
                     {
                         // Any additional setup or commands to run inside the Docker container
                         sh 'ls -la'
