@@ -26,11 +26,10 @@
         ports:
           - "8079:8080"
 
-    - name: Gather Docker container facts
-      docker_container_facts:
-        name: my_container
-        register: container_facts
+    - name: Gather Docker info
+      community.docker.docker_info:
+      register: docker_info_result
 
-    - name: Print container facts
+    - name: Print Docker container info
       debug:
-        var: container_facts.containers
+        var: docker_info_result
