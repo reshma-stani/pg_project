@@ -12,10 +12,11 @@
 
     - name: Remove old Docker images
       docker_image:
-        name: "{{ DOCKER_IMAGE }}"
+        name: "{{ item }}"
         state: absent
-        before_image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
-
+      loop: "{{ docker_images.images | map(attribute='RepoTags') | flatten | select('match', '^{{ DOCKER_IMAGE }}:') | list }}"
+      when: item != "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
+      ignore_errors: yes
 
     - name: Run Docker Container
       docker_container:
