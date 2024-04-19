@@ -85,7 +85,7 @@ pipeline {
                         }
             steps {
                 // Execute Ansible playbook
-                sh 'ansible-playbook -v playbook.yml'
+                sh "ansible-playbook -v playbook.yml --extra-vars 'DOCKER_IMAGE=${DOCKER_IMAGE}'"
             }
         }  
         
