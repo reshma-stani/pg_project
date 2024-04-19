@@ -2,6 +2,7 @@
 - name: Build & Deploy Docker Container
   hosts: 34.170.55.162
   gather_facts: false
+  log_path: /path/to/playbook.log
 
 
   tasks:
