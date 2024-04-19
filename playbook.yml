@@ -1,8 +1,7 @@
 ---
 - name: Build & Deploy Docker Container
-  hosts: 34.170.55.162
+  hosts: abcserver
   gather_facts: false
-
 
   tasks:
     - name: Pull Docker Image
@@ -25,11 +24,13 @@
         state: started
         ports:
           - "8079:8080"
+          
+    - name: Gather Docker container facts
+      docker_container_facts:
+        name: my_container
+      register: container_facts
 
-    - name: Gather Docker info
-      community.docker.docker_info:
-      register: docker_info_result
-
-    - name: Print Docker container info
+    - name: Print container facts
       debug:
-        var: docker_info_result
+        var: container_facts.containers
+
