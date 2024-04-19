@@ -1,6 +1,7 @@
 ---
 - name: Build & Deploy Docker Container
-  hosts: abcserver
+  hosts: localhost
+  become: true
   gather_facts: false
 
   tasks:
