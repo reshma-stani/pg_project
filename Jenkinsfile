@@ -79,12 +79,12 @@ pipeline {
                 }
             }
         }
-  //              stage('Deploy Artifacts on Kubernetes') {
-   //                 steps {
-                   //  Ansible playbook to deploy artifacts on Kubernetes
-  //                    sh 'ansible-playbook deploy_kubernetes.yml'
-    //            }
-      //  }          
+        stage('Run Ansible Playbook') {
+            steps {
+                // Execute Ansible playbook
+                sh 'ansible-playbook playbook.yml'
+            }
+        }  
         
     }        
 }
