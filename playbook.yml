@@ -1,19 +1,18 @@
 ---
 - name: Build & Deploy Docker Container
-  hosts: localhost
+  hosts: all
   become: true
+
   tasks:
     - name: Pull Docker Image
       docker_image:
-        name: "{{ DOCKER_IMAGE }}"
-        tag: "{{ BUILD_NUMBER }}"
+        name: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
         source: pull
 
     - name: Run Docker Container
       docker_container:
-        name: my_abccontainer
+        name: my_container
         image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
         state: started
         ports:
           - "8079:8080"
-   
