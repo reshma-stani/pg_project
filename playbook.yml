@@ -10,6 +10,13 @@
         name: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
         source: pull
 
+    - name: Remove old Docker images
+      docker_image:
+        name: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
+        state: absent
+        before_image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
+
+
     - name: Run Docker Container
       docker_container:
         name: my_container
