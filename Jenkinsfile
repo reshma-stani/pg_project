@@ -58,12 +58,24 @@ pipeline {
             stage('Run Docker Container') {
             steps {
                 script {
-                    docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").run("-p 8079:8080") 
-                    {
-                        // Any additional setup or commands to run inside the Docker container
-                        sh 'ls -la'
-                        sh 'echo "Docker container is running"'
-                    }
+                    //Below removed to test the container status 
+                   // docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").run("-p 8079:8080") 
+
+                    def dockerImage = "${DOCKER_IMAGE}:${BUILD_NUMBER}"
+                    def container = docker.image(dockerImage).run("-d -p 8079:8080")
+                    def containerId = container.id
+
+                    // Additional setup commands to run inside the Docker container
+                    try {
+                        // Run commands inside the Docker container
+                            sh "docker exec $containerId ls -la"
+                            sh "docker exec $containerId echo 'Docker container is running'"
+           
+                    } finally {
+                // Cleanup: Stop and remove the container after execution
+                    sh "docker stop $containerId"
+                    sh "docker rm $containerId"
+                     }
                 }
             }
         }
