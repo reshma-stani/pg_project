@@ -85,7 +85,7 @@ pipeline {
                         }
             steps {
                 // Execute Ansible playbook
-                sh 'ansible-playbook playbook.yml'
+                sh 'ansible-playbook -v playbook.yml'
             }
         }  
         
