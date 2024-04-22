@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-deployment
+  name: my-container-deployment
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-app
+      app: my-container
   template:
     metadata:
       labels:
-        app: my-app
+        app: my-container
     spec:
       containers:
       - name: my-container
-        image: my_image
+        image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
         ports:
-        - containerPort: 80
+        - containerPort: 8080

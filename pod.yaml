@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-container-pod
+spec:
+  containers:
+  - name: my-container
+    image: your-docker-image:your-tag
+    ports:
+    - containerPort: 8080

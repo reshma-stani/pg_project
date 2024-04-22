@@ -18,6 +18,20 @@ pipeline {
                  git branch: 'main', url: ' https://github.com/reshma-stani/pg_project.git '
             }
         }
+
+
+    #Terraform initiaisation post ansible-playbook complile #95
+
+    stage('Terraform Init') {
+            steps {
+                sh 'terraform init'
+            }
+        }
+        stage('Terraform Apply') {
+            steps {
+                sh 'terraform apply -auto-approve'
+            }
+        }
         stage('Compile') {
             steps {
                 // Compile the Maven project
@@ -92,5 +106,14 @@ pipeline {
             }
         }  
         
-    }        
+    } 
+    post {
+        always {
+            stage('Terraform Destroy') {
+                steps {
+                    sh 'terraform destroy -auto-approve'
+                }
+            }
+        }
+    }       
 }
