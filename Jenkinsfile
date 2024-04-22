@@ -20,7 +20,7 @@ pipeline {
         }
 
 
-    #Terraform initiaisation post ansible-playbook complile #95
+    //Terraform initiaisation post ansible-playbook complile #95
 
     stage('Terraform Init') {
             steps {
