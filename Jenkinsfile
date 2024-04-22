@@ -7,7 +7,10 @@
         agent any
 
         environment {
-            GOOGLE_APPLICATION_CREDENTIALS = credentials('GKE')
+            GOOGLE_APPLICATION_CREDENTIALS = '/var/lib/jenkins/gcp-key.json'
+            PROJECT_ID = 'cellular-tide-420012'
+            CLUSTER_NAME = 'abc1-cluster'
+            REGION = 'us-central1'
             DOCKER_REGISTRY = 'https://index.docker.io/v1/'
             DOCKER_IMAGE = 'reshmastani382/abcimage'
         }
@@ -20,19 +23,6 @@
                 }
             }
 
-
-        //Terraform initiaisation post ansible-playbook complile #95
-
-        stage('Terraform Init') {
-                steps {
-                    sh 'terraform init'
-                }
-            }
-            stage('Terraform Apply') {
-                steps {
-                    sh 'terraform apply -auto-approve'
-                }
-            }
             stage('Compile') {
                 steps {
                     // Compile the Maven project
@@ -70,6 +60,9 @@
                     }
                 }
             }
+
+
+
                 stage('Run Docker Container') {
                 steps {
                     script {
@@ -96,6 +89,17 @@
                     }
                 }
             }
+
+            stage('Deploy Artifacts on Kubernetes') {
+            steps {
+                script {
+                    // Apply Kubernetes manifests
+                    sh "kubectl apply -f pod.yaml"
+                    sh "kubectl apply -f service.yaml"
+                    sh "kubectl apply -f deploy.yaml"
+                }
+            }
+        }
             stage('Run Ansible Playbook') {
                     environment {
                         ANSIBLE_LOG_PATH = '/var/log/jenkins/ansible-playbook.log'
@@ -108,21 +112,5 @@
             }  
             
         } 
-        post {
-            always {
-                  script {
-                        stage('Terraform Destroy') {
-                        sh 'terraform destroy -auto-approve'
-                    }
-                }
-            }
-        }   
-         options {
-        //Jenkins Cred
-        googleCloudCredentials('GKE') {
-            scopes = [
-                'https://www.googleapis.com/auth/cloud-platform'
-            ]
-        }
-    }
+        
     }
