@@ -7,6 +7,7 @@
         agent any
 
         environment {
+            GOOGLE_APPLICATION_CREDENTIALS = credentials('GKE')
             DOCKER_REGISTRY = 'https://index.docker.io/v1/'
             DOCKER_IMAGE = 'reshmastani382/abcimage'
         }
@@ -116,4 +117,12 @@
                 }
             }
         }   
+         options {
+        //Jenkins Cred
+        googleCloudCredentials('GKE') {
+            scopes = [
+                'https://www.googleapis.com/auth/cloud-platform'
+            ]
+        }
+    }
     }
