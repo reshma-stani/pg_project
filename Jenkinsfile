@@ -62,7 +62,9 @@ pipeline {
                    // docker.image("${DOCKER_IMAGE}:${BUILD_NUMBER}").run("-p 8079:8080") 
 
                     def dockerImage = "${DOCKER_IMAGE}:${BUILD_NUMBER}"
-                    def container = docker.image(dockerImage).run("-d -p 8079:8080")
+
+                    //Changing below due to #92
+                    def container = docker.image(dockerImage).run("-d")
                     def containerId = container.id
 
                     // Additional setup commands to run inside the Docker container
