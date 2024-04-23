@@ -16,7 +16,7 @@
         image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
         state: started
         ports:
-          - "8079:8080"
+          - "80:8079"
           
     - name: Gather Docker container facts
       docker_container:
@@ -64,8 +64,8 @@
           app: my_container
         ports:
           - protocol: TCP
-            port: 8079 #testing
-            targetPort: 8080
+            port: 80 #testing
+            targetPort: 8079
 
     kube_deployment: |
       apiVersion: apps/v1
