@@ -27,10 +27,29 @@
       debug:
         var: container_facts.containers
 
-#    - name: Stop and Remove Docker Container
-#      docker_container:
-#        name: my_container
-#        state: absent
+- name: Install Prometheus
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Add Prometheus apt key
+      apt_key:
+        url: https://packages.grafana.com/gpg.key
+        state: present
+
+    - name: Add Prometheus repository
+      apt_repository:
+        repo: deb https://packages.grafana.com/oss/deb stable main
+        state: present
+
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+
+    - name: Install Prometheus
+      apt:
+        name: prometheus
+        state: present
+
 
 - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
   hosts: localhost
