@@ -27,47 +27,6 @@
       debug:
         var: container_facts.containers
 
-- name: Install Prometheus
-  hosts: localhost
-  gather_facts: false
-  tasks:
-    - name: Add Prometheus repository
-      apt_repository:
-        repo: deb https://packages.grafana.com/oss/deb stable main
-        state: present
-        filename: prometheus
-      become: true
-
-    - name: Add Prometheus repository
-      apt_repository:
-        repo: deb https://packages.grafana.com/oss/deb stable main
-        state: present
-
-    - name: Update apt packages
-      apt:
-        update_cache: yes
-
-    - name: Install Prometheus
-      apt:
-        name: prometheus
-        state: present
-
-- name: Configure Prometheus
-  hosts: localhost
-  gather_facts: false
-  tasks:
-    - name: Add Node Exporter target to Prometheus configuration
-      lineinfile:
-        path: /etc/prometheus/prometheus.yml
-        line: "  - targets: ['localhost:9100']"
-      notify: Restart Promethe
-  handlers:
-    - name: Restart Prometheus
-      systemd:
-        name: prometheus
-        state: restarted
-
-
 - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
   hosts: localhost
   vars:
@@ -76,18 +35,18 @@
       kind: Namespace
       metadata:
         name: abc1-clusters
-    #kube_pod: |
-    #  apiVersion: v1
-    #  kind: Pod
-    #  metadata:
-    #    name: my-container-pod
-    #    namespace: abc1-clusters
-    #  spec:
-    #    containers:
-    #    - name: my-container
-    #      image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
-    #      ports:
-    #      - containerPort: 8080
+    kube_pod: |
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: my-container-pod
+        namespace: abc1-clusters
+      spec:
+        containers:
+        - name: my-container
+          image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
+          ports:
+          - containerPort: 8080
 
     kube_service: |
       apiVersion: v1
