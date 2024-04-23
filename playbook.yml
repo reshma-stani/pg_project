@@ -55,7 +55,7 @@
         ports:
           - protocol: TCP
             port: 80
-            targetPort: 8079
+            targetPort: 8080
 
     kube_deployment: |
       apiVersion: apps/v1
