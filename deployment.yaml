@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: my-container-deployment
+  namespace: gke_cellular-tide-420012_us-central1-c_abc1-cluster #Build #120 names Namespace is required for apps/v1.Deployment
 spec:
   replicas: 3
   selector:
