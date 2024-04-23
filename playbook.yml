@@ -27,6 +27,11 @@
       debug:
         var: container_facts.containers
 
+    - name: Stop and Remove Docker Container
+      docker_container:
+        name: my_container
+        state: absent
+        
 - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
   hosts: localhost
   vars:
