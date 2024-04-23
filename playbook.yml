@@ -1,6 +1,6 @@
 ---
 - name: Build & Deploy Docker Container
-  hosts: all, 34.170.55.162
+  hosts: all
   become: true
   gather_facts: false
 
@@ -16,7 +16,7 @@
         image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
         state: started
         ports:
-          - "80:8079"
+          - "8079:8080"
           
     - name: Gather Docker container facts
       docker_container:
@@ -65,7 +65,7 @@
         ports:
           - protocol: TCP
             port: 80 #testing
-            targetPort: 8080
+            targetPort: 8079
 
     kube_deployment: |
       apiVersion: apps/v1
