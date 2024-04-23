@@ -1,3 +1,7 @@
+#kubernetes library in your Dockerfile to fix python error
+FROM python:3
+RUN pip install kubernetes
+
 # Using the official Tomcat base image
 FROM tomcat:latest
 

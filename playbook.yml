@@ -30,7 +30,6 @@
 - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
   hosts: localhost
   vars:
-    ansible_python_interpreter: /usr/bin/python3
   tasks:
     - name: Apply Kubernetes manifest files
       k8s:
