@@ -65,7 +65,7 @@
         ports:
           - protocol: TCP
             port: 80 #testing
-            targetPort: 8079
+            targetPort: 8080
 
     kube_deployment: |
       apiVersion: apps/v1
@@ -100,3 +100,16 @@
       #  - "{{ kube_pod }}"
         - "{{ kube_service }}"
         - "{{ kube_deployment }}"
+
+   - name: Wait for service to be available
+      uri:
+        url: "http://{{ 34.170.55.162 }}:80"
+        return_content: yes
+      register: result
+      until: result.status == 200
+      retries: 10
+      delay: 5
+
+    - name: Display result
+      debug:
+        var: result.content
