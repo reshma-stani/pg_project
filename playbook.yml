@@ -1,6 +1,6 @@
 ---
 - name: Build & Deploy Docker Container
-  hosts: localhost
+  hosts: all 
   become: true
   gather_facts: false
 
@@ -103,7 +103,7 @@
 
    - name: Wait for service to be available
       uri:
-        url: "http://{{ 34.170.55.162 }}:80"
+        url: "http://34.170.55.162:80"
         return_content: yes
       register: result
       until: result.status == 200
