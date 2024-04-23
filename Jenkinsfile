@@ -13,6 +13,9 @@
             REGION = 'us-central1'
             DOCKER_REGISTRY = 'https://index.docker.io/v1/'
             DOCKER_IMAGE = 'reshmastani382/abcimage'
+            //gcloud container clusters get-credentials abc1-cluster --project cellular-tide-420012 --zone us-central1-c
+            KUBECONFIG = '/var/lib/jenkins/kubeconfig.yaml'
+
         }
         
         stages {

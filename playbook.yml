@@ -27,15 +27,14 @@
       debug:
         var: container_facts.containers
 
-    - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
-      hosts: localhost
-      tasks:
-        - name: Apply Kubernetes manifest files
-          k8s:
-            state: present
-            definition: "{{ item }}"
-          with_items:
-            - pod.yaml
-            - service.yaml
-            - deployment.yaml
-
+- name: Apply Kubernetes manifest files #Ansible invoking the manifest files
+  hosts: localhost
+  tasks:
+    - name: Apply Kubernetes manifest files
+      k8s:
+        state: present
+        definition: "{{ item }}"
+      with_items:
+        - pod.yaml
+        - service.yaml
+        - deployment.yaml
