@@ -73,6 +73,7 @@
         selector:
           matchLabels:
             app: my-container
+            type: ClusterIP
         template:
           metadata:
             labels:
