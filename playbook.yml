@@ -84,7 +84,8 @@
       with_items:
         - "{{ kube_pod }}"
         - "{{ kube_service }}"
-        - "{{ kube_deployment }}"tasks:
+        - "{{ kube_deployment }}"
+  tasks:
     - name: Apply Kubernetes manifest files
       k8s:
         state: present
