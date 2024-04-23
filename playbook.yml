@@ -52,21 +52,20 @@
         name: prometheus
         state: present
 
-    - name: Configure Prometheus
-      hosts: localhost
-      gather_facts: false
-      tasks:
-        - name: Add Node Exporter target to Prometheus configuration
-          lineinfile:
-            path: /etc/prometheus/prometheus.yml
-            line: "  - targets: ['localhost:9100']"
-          notify: Restart Prometheus
-
-      handlers:
-        - name: Restart Prometheus
-          systemd:
-            name: prometheus
-            state: restarted
+- name: Configure Prometheus
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Add Node Exporter target to Prometheus configuration
+      lineinfile:
+        path: /etc/prometheus/prometheus.yml
+        line: "  - targets: ['localhost:9100']"
+      notify: Restart Promethe
+  handlers:
+    - name: Restart Prometheus
+      systemd:
+        name: prometheus
+        state: restarted
 
 
 - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
