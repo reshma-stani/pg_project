@@ -35,18 +35,23 @@
 - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
   hosts: localhost
   vars:
-    kube_pod: |
+    kube_ns:  |
       apiVersion: v1
-      kind: Pod
+      kind: Namespace
       metadata:
-        name: my-container-pod
-        namespace: abc1-clusters
-      spec:
-        containers:
-        - name: my-container
-          image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
-          ports:
-          - containerPort: 8080
+        name: abc1-clusters
+    #kube_pod: |
+    #  apiVersion: v1
+    #  kind: Pod
+    #  metadata:
+    #    name: my-container-pod
+    #    namespace: abc1-clusters
+    #  spec:
+    #    containers:
+    #    - name: my-container
+    #      image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
+    #      ports:
+    #      - containerPort: 8080
 
     kube_service: |
       apiVersion: v1
