@@ -101,7 +101,7 @@
         - "{{ kube_service }}"
         - "{{ kube_deployment }}"
 
-   - name: Wait for service to be available
+    - name: Wait for service to be available
       uri:
         url: "http://34.170.55.162:80"
         return_content: yes
