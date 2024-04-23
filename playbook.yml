@@ -96,6 +96,7 @@
         state: present
         definition: "{{ item }}"
       with_items:
+        - "{{ kube_ns }}"
       #  - "{{ kube_pod }}"
         - "{{ kube_service }}"
         - "{{ kube_deployment }}"
