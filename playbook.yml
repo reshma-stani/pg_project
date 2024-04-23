@@ -27,6 +27,30 @@
       debug:
         var: container_facts.containers
 
+- name: Apply Monitoring Stack
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Copy monitoring.yaml to Kubernetes cluster
+      copy:
+        src: monitoring.yaml
+        dest: /tmp/monitoring.yaml
+
+    - name: Apply monitoring.yaml
+      command: kubectl apply -f /tmp/monitoring.yaml
+
+- name: Apply Grafana
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Copy grafana.yaml to Kubernetes cluster
+      copy:
+        src: grafana.yaml
+        dest: /tmp/grafana.yaml
+
+    - name: Apply grafana.yaml
+      command: kubectl apply -f /tmp/grafana.yaml
+
 - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
   hosts: localhost
   vars:
