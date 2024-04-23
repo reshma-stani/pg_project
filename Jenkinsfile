@@ -93,16 +93,16 @@
                 }
             }
 
-            stage('Deploy Artifacts on Kubernetes') {
-            steps {
-                script {
+           // stage('Deploy Artifacts on Kubernetes') {
+         //   steps {
+        //        script {
                     // Apply Kubernetes manifests
-                    sh "kubectl apply -f pod.yaml"
-                    sh "kubectl apply -f service.yaml"
-                    sh "kubectl apply -f deployment.yaml"
-                }
-            }
-        }
+                  //  sh "kubectl apply -f pod.yaml"
+                 //   sh "kubectl apply -f service.yaml"
+                 //   sh "kubectl apply -f deployment.yaml"
+        //        }
+       //     }
+       // }
             stage('Run Ansible Playbook') {
                     environment {
                         ANSIBLE_LOG_PATH = '/var/log/jenkins/ansible-playbook.log'
