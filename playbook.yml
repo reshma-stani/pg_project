@@ -30,7 +30,61 @@
 - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
   hosts: localhost
   vars:
+    kube_pod: |
+      apiVersion: v1
+      kind: Pod
+      metadata:
+        name: my-container-pod
+      spec:
+        containers:
+        - name: my-container
+          image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
+          ports:
+          - containerPort: 8080
+
+    kube_service: |
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: my-container-service
+      spec:
+        selector:
+          app: my_container
+        ports:
+          - protocol: TCP
+            port: 80
+            targetPort: 8079
+
+    kube_deployment: |
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: my-container-deployment
+      spec:
+        replicas: 3
+        selector:
+          matchLabels:
+            app: my-container
+        template:
+          metadata:
+            labels:
+              app: my-container
+          spec:
+            containers:
+            - name: my-container
+              image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
+              ports:
+              - containerPort: 8080
+
   tasks:
+    - name: Apply Kubernetes manifest files
+      k8s:
+        state: present
+        definition: "{{ item }}"
+      with_items:
+        - "{{ kube_pod }}"
+        - "{{ kube_service }}"
+        - "{{ kube_deployment }}"tasks:
     - name: Apply Kubernetes manifest files
       k8s:
         state: present
