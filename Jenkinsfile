@@ -99,7 +99,7 @@
                     // Apply Kubernetes manifests
                     sh "kubectl apply -f pod.yaml"
                     sh "kubectl apply -f service.yaml"
-                    sh "kubectl apply -f deploy.yaml"
+                    sh "kubectl apply -f deployment.yaml"
                 }
             }
         }
