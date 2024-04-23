@@ -72,13 +72,13 @@
       kind: Deployment
       metadata:
         name: my-container-deployment
-        namespace: abc1-clusters
+        labels: 
+          app: my-container
       spec:
         replicas: 3
         selector:
           matchLabels:
             app: my-container
-            type: ClusterIP
         template:
           metadata:
             labels:
@@ -89,7 +89,6 @@
               image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
               ports:
               - containerPort: 8080
-
   tasks:
     - name: Apply Kubernetes manifest files
       k8s:
