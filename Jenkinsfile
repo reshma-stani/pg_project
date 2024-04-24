@@ -90,33 +90,39 @@
                     }
                 }
             }
-            
-            stage('Delete GKE Cluster') {
+
+            stage('SKIP GKE Cluster creation') {
             steps {
                 script {
                     try {
-                        sh "gcloud container clusters get-credentials ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION}"
-                        sh "gcloud container clusters delete ${CLUSTER_NAME} --quiet --project ${PROJECT_ID} --zone ${REGION}"
+                        sh "gcloud container clusters describe ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION}"
+                        echo "Cluster ${CLUSTER_NAME}" exits, skipping cluster creation"
+                        currentBuild.result = 'Success'
+                       // sh "gcloud container clusters delete ${CLUSTER_NAME} --quiet --project ${PROJECT_ID} --zone ${REGION}"
                     } catch (err) {
-                        echo "Cluster ${CLUSTER_NAME} does not exist or could not be deleted."
+                        echo "Cluster ${CLUSTER_NAME} does not exist, proeeding with cluster creation."
                     }
                 }
             }
         }
 
             stage('Create GKE Cluster') {
-                steps {
-                    sh "gcloud container clusters create ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION} --num-nodes 3 --no-enable-ip-alias --cluster-ipv4-cidr=10.244.0.0/16 "
-                    // Fix for  Your Pod address range (`--cluster-ipv4-cidr`) can accommodate at most 1008 node(s).
+                when {
+                    //Executing if cluster does not exist
+                    expression { currentBuild.result != 'SUCCESS' }
                 }
+                steps {
+                    sh "gcloud container clusters create ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION} --num-nodes 3 --no-enable-ip-alias"
+                    // Fix for  Your Pod address range (`--cluster-ipv4-cidr`) can accommodate at most 1008 node(s). --cluster-ipv4-cidr=10.128.0.0/16 
+                }   echo "Cluster ${CLUSTER_NAME} creation Success "
             }
 
-            stage('Expose GKE Cluster') {
+            /*stage('Expose GKE Cluster') {
                 steps {
                     sh "gcloud container clusters get-credentials ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION}"
                     sh "kubectl expose deployment my-container-deployment --type=LoadBalancer --port=80 --target-port=8079 --name=my-container-service"
                 }
-            }
+            } */
 
             /* stage('Deploy Artifacts on Kubernetes') {
                steps {
