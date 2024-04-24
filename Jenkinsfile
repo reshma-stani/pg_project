@@ -138,7 +138,18 @@
 
                 }
             }
+            // Assigning External IP 
+            stage('Update Service with External IP') {
+                steps {
+                    script {
+                        // Obtain external IP address from Load Balancer
+                        def externalIP = sh( script: "gcloud compute forwarding-rules describe my-forwarding-rule --format='get(IPAddress)'", returnStdout: true).trim()
+
+                    // Patch Kubernetes Service with external IP
+                    sh "kubectl patch svc my-container-service -n kube-clusters --type='json' -p '[{\"op\":\"replace\",\"path\":\"/spec/loadBalancerIP\",\"value\":\"${externalIP}\"}]'"
+                }
+            }    
 
         }
-
     }
+    
