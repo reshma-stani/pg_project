@@ -10,7 +10,7 @@
             GOOGLE_APPLICATION_CREDENTIALS = '/var/lib/jenkins/gcp-key.json'
             PROJECT_ID = 'cellular-tide-420012'
             CLUSTER_NAME = 'kube-clusters'
-            REGION = 'us-central1'
+            REGION = 'us-central1-c'
             DOCKER_REGISTRY = 'https://index.docker.io/v1/'
             DOCKER_IMAGE = 'reshmastani382/abcimage'
             KUBECONFIG = '/var/lib/jenkins/kubeconfig.yaml'
