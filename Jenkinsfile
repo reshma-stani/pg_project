@@ -91,30 +91,23 @@
                 }
             }
 
-            stage('SKIP GKE Cluster creation') {
-            steps {
-                script {
-                    try {
-                        sh "gcloud container clusters describe ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION}"
-                        echo "Cluster ${CLUSTER_NAME} exits, skipping cluster creation"
-                        currentBuild.result = 'Success'
-                       // sh "gcloud container clusters delete ${CLUSTER_NAME} --quiet --project ${PROJECT_ID} --zone ${REGION}"
-                    } catch (err) {
-                        echo "Cluster ${CLUSTER_NAME} does not exist, proeeding with cluster creation."
+            stage('GKE Cluster creation') {
+                steps {
+                    script {
+                        //Check if Cluster exists
+
+                        def clusterExists = sh (script: "gcloud container clusters describe ${CLUSTER_NAME}  --project ${project_ID} --zone ${REGION}", returnStatus: true ) == 0
+
+                        if (!clusterExists){
+                                //run only if cluster is absent
+                                sh "gcloud container clusters create ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION} --num-nodes 3 --no-enable-ip-alias"
+                                echo "Cluster ${CLUSTER_NAME} creation Success "
+                        }
+                        else{
+                             echo "Cluster ${CLUSTER_NAME} already exist, skipping creation." 
+                        }
                     }
                 }
-            }
-        }
-
-            stage('Create GKE Cluster') {
-                when {
-                    //Executing if cluster does not exist
-                    expression { currentBuild.result != 'SUCCESS' }
-                }
-                steps {
-                    sh "gcloud container clusters create ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION} --num-nodes 3 --no-enable-ip-alias"
-                    // Fix for  Your Pod address range (`--cluster-ipv4-cidr`) can accommodate at most 1008 node(s). --cluster-ipv4-cidr=10.128.0.0/16 
-                }   echo "Cluster ${CLUSTER_NAME} creation Success "
             }
 
             /*stage('Expose GKE Cluster') {
