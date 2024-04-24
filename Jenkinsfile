@@ -143,7 +143,7 @@
                 steps {
                     script {
                         // Obtain external IP address from Load Balancer
-                        def externalIP = sh( script: "gcloud compute forwarding-rules describe my-forwarding-rule --region ${REGION} --format='get(IPAddress)'", returnStdout: true).trim()
+                        def externalIP = sh( script: "gcloud compute forwarding-rules describe my-forwarding-rule --region=us-central1 --format='get(IPAddress)'", returnStdout: true).trim()
 
 
                     // Patch Kubernetes Service with external IP
