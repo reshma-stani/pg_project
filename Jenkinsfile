@@ -96,7 +96,7 @@
                 script {
                     try {
                         sh "gcloud container clusters describe ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION}"
-                        echo "Cluster ${CLUSTER_NAME}" exits, skipping cluster creation"
+                        echo "Cluster ${CLUSTER_NAME} exits, skipping cluster creation"
                         currentBuild.result = 'Success'
                        // sh "gcloud container clusters delete ${CLUSTER_NAME} --quiet --project ${PROJECT_ID} --zone ${REGION}"
                     } catch (err) {
