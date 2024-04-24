@@ -77,15 +77,17 @@
       kind: Service
       metadata:
         name: my-container-service
-        namespace: kube-clusters #Build #120 names Namespace is required for apps/v1.Deployment
+        #Build #120 names Namespace is required for apps/v1.Deployment
+        namespace: kube-clusters 
       spec:
+        type: LoadBalancer
         selector:
           app: my_container
         ports:
           - protocol: TCP
             port: 80 #testing
             targetPort: 8081
-            type: LoadBalancer
+            
 
     kube_deployment: |
       apiVersion: apps/v1
