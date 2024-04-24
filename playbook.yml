@@ -85,6 +85,7 @@
           - protocol: TCP
             port: 80 #testing
             targetPort: 8079
+      type: LoadBalancer
 
     kube_deployment: |
       apiVersion: apps/v1
