@@ -16,7 +16,7 @@
         image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
         state: started
         ports:
-          - "8080:8079"
+          - "8079:8080"
           
     - name: Gather Docker container facts
       docker_container:
@@ -84,7 +84,7 @@
         ports:
           - protocol: TCP
             port: 80 #testing
-            targetPort: 8079
+            targetPort: 8080
             type: LoadBalancer
 
     kube_deployment: |
