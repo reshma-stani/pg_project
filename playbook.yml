@@ -58,13 +58,13 @@
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: abc1-clusters
+        name: kube-clusters
     kube_pod: |
       apiVersion: v1
       kind: Pod
       metadata:
         name: my-container-pod
-        namespace: abc1-clusters
+        namespace: kube-clusters
       spec:
         containers:
         - name: my-container
@@ -77,7 +77,7 @@
       kind: Service
       metadata:
         name: my-container-service
-        namespace: abc1-clusters #Build #120 names Namespace is required for apps/v1.Deployment
+        namespace: kube-clusters #Build #120 names Namespace is required for apps/v1.Deployment
       spec:
         selector:
           app: my_container
@@ -92,7 +92,7 @@
       kind: Deployment
       metadata:
         name: my-container-deployment
-        namespace: abc1-clusters
+        namespace: kube-clusters
         labels: 
           app: my-container
       spec:
