@@ -14,7 +14,7 @@ COPY target/ABCtechnologies-1.0.war /usr/local/tomcat/webapps/abc_tech.war
 RUN cp -R /usr/local/tomcat/webapps.dist/* /usr/local/tomcat/webapps/
 
 # Expose the default Tomcat port
-EXPOSE 8080
+EXPOSE 8081
 
 # Start Tomcat when the container is launched
 CMD ["catalina.sh", "run"]
