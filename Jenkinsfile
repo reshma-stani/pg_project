@@ -90,8 +90,19 @@
                     }
                 }
             }
-
-    
+            
+            stage('Delete GKE Cluster') {
+            steps {
+                script {
+                    try {
+                        sh "gcloud container clusters get-credentials ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION}"
+                        sh "gcloud container clusters delete ${CLUSTER_NAME} --quiet --project ${PROJECT_ID} --zone ${REGION}"
+                    } catch (err) {
+                        echo "Cluster ${CLUSTER_NAME} does not exist or could not be deleted."
+                    }
+                }
+            }
+        }
 
             stage('Create GKE Cluster') {
                 steps {
