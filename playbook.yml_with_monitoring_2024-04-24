@@ -27,6 +27,30 @@
       debug:
         var: container_facts.containers
 
+- name: Apply Monitoring Stack
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Copy monitoring.yaml to Kubernetes cluster
+      copy:
+        src: monitoring.yaml
+        dest: /tmp/monitoring.yaml
+
+    - name: Apply monitoring.yaml
+      command: kubectl apply -f /tmp/monitoring.yaml
+
+- name: Apply Grafana
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Copy grafana.yaml to Kubernetes cluster
+      copy:
+        src: grafana.yaml
+        dest: /tmp/grafana.yaml
+
+    - name: Apply grafana.yaml
+      command: kubectl apply -f /tmp/grafana.yaml
+
 - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
   hosts: localhost
   vars:
@@ -34,13 +58,13 @@
       apiVersion: v1
       kind: Namespace
       metadata:
-        name: abc-clst
+        name: kube-clusters
     kube_pod: |
       apiVersion: v1
       kind: Pod
       metadata:
         name: my-container-pod
-        namespace: abc-clst
+        namespace: kube-clusters
       spec:
         containers:
         - name: my-container
@@ -54,14 +78,14 @@
       metadata:
         name: my-container-service
         #Build #120 names Namespace is required for apps/v1.Deployment
-        namespace: abc-clst 
+        namespace: kube-clusters 
       spec:
         type: LoadBalancer
         selector:
           app: my_container
         ports:
           - protocol: TCP
-            port: 8081
+            port: 80 #testing
             targetPort: 8081
             
 
@@ -70,7 +94,7 @@
       kind: Deployment
       metadata:
         name: my-container-deployment
-        namespace: abc-clst
+        namespace: kube-clusters
         labels: 
           app: my-container
       spec:
