@@ -77,16 +77,16 @@
                         def containerId = container.id
 
                         // Additional setup commands to run inside the Docker container
-                        try {
+                       // try {
                             // Run commands inside the Docker container
                             sh "docker exec $containerId ls -la"
                             sh "docker exec $containerId echo 'Docker container is running'"
 
-                        } finally {
+                       // } finally {
                             // Cleanup: Stop and remove the container after execution
-                            sh "docker stop $containerId"
-                            sh "docker rm $containerId"
-                        }
+                           // sh "docker stop $containerId"
+                           // sh "docker rm $containerId"
+                      //  }
                     }
                 }
             }
