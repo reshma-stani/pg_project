@@ -93,7 +93,8 @@
 
             stage('Create GKE Cluster') {
                 steps {
-                    sh "gcloud container clusters create ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION} --num-nodes 3"
+                    sh "gcloud container clusters create ${CLUSTER_NAME} --project ${PROJECT_ID} --zone ${REGION} --num-nodes 3 --no-enable-ip-alias --cluster-ipv4-cidr=10.104.0.0/14"
+                    // Fix for  Your Pod address range (`--cluster-ipv4-cidr`) can accommodate at most 1008 node(s).
                 }
             }
 
