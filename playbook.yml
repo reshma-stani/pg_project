@@ -75,10 +75,12 @@
     - name: Configure Grafana datasources
       grafana_datasource:
         name: Prometheus
-        url: http://localhost:9090
+        url: http://127.0.0.1:9090
         access: proxy
         type: prometheus
         state: present
+      ignore_errors: yes
+
 
     - name: Copy Grafana dashboard JSON to Grafana provisioning directory
       copy:
