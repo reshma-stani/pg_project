@@ -87,6 +87,7 @@
         src: "{{ jenkins_workspace }}/dashboard.json"
         dest: /etc/grafana/provisioning/dashboards/
       notify: restart grafana-server
+      ignore_errors: yes
 
   handlers:
     - name: restart prometheus
