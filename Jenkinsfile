@@ -84,8 +84,8 @@
 
                        // } finally {
                             // Cleanup: Stop and remove the container after execution
-                           // sh "docker stop $containerId"
-                           // sh "docker rm $containerId"
+                            sh "docker stop $containerId"
+                            sh "docker rm $containerId"
                       //  }
                     }
                 }
