@@ -55,18 +55,15 @@
         name: my-container-service
         #Build #120 names Namespace is required for apps/v1.Deployment
         namespace: abc-clst 
-        labels: 
-          app: "my-container"
       spec:
+        type: LoadBalancer
+        selector:
+          app: my_container
         ports:
           - protocol: TCP
             port: 8081
             targetPort: 8081
-        selector:
-          app: my_container
-        type: LoadBalancer
-        loadBalancerIP: ""
-        
+            
 
     kube_deployment: |
       apiVersion: apps/v1
