@@ -35,7 +35,7 @@
       kind: Namespace
       metadata:
         name: abc-clst
-  
+
     kube_pod: |
       apiVersion: v1
       kind: Pod
@@ -61,7 +61,7 @@
       spec:
         ports:
           - protocol: TCP
-            port: 8081
+            port: 80
             targetPort: 8080
         selector:
           app: my-container
@@ -99,7 +99,7 @@
         definition: "{{ item }}"
       with_items:
         - "{{ kube_ns }}"
-      #  - "{{ kube_pod }}"
+        - "{{ kube_pod }}"
         - "{{ kube_service }}"
         - "{{ kube_deployment }}"
 
