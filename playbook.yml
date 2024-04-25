@@ -1,8 +1,8 @@
 ---
 - name: Build & Deploy Docker Container
   hosts: all
-  become: true
   gather_facts: false
+  become: true
 
   tasks:
     - name: Pull Docker Image
@@ -30,6 +30,8 @@
 - name: Apply Monitoring Stack
   hosts: localhost
   gather_facts: false
+  become: true
+
   tasks:
     - name: Install Prometheus
       apt:
