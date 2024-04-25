@@ -35,6 +35,8 @@
       kind: Namespace
       metadata:
         name: abc-clst
+
+    kube_lb    
     kube_pod: |
       apiVersion: v1
       kind: Pod
@@ -63,7 +65,7 @@
             port: 8081
             targetPort: 8080
         selector:
-          app: my_container
+          app: my-container
         type: LoadBalancer
         loadBalancerIP: ""
         
