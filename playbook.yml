@@ -35,8 +35,7 @@
       kind: Namespace
       metadata:
         name: abc-clst
-
-    kube_lb    
+  
     kube_pod: |
       apiVersion: v1
       kind: Pod
