@@ -136,7 +136,7 @@
                 }
                 steps {
                     // Execute Ansible playbook
-                    sh "ansible-playbook -v -e 'DOCKER_IMAGE=${DOCKER_IMAGE}' -e 'BUILD_NUMBER=${BUILD_NUMBER}' playbook.yml"
+                    sh "ansible-playbook -v -e 'DOCKER_IMAGE=${DOCKER_IMAGE}' -e 'BUILD_NUMBER=${BUILD_NUMBER}' -e 'jenkins_workspace=${jenkins_workspace}' playbook.yml"
 
                 }
             }
