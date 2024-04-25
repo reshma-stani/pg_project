@@ -16,7 +16,7 @@
         image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
         state: started
         ports:
-          - "8079:8081"
+          - "8079:8080"
           
     - name: Gather Docker container facts
       docker_container:
@@ -46,7 +46,7 @@
         - name: my-container
           image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
           ports:
-          - containerPort: 8081
+          - containerPort: 8080
 
     kube_service: |
       apiVersion: v1
@@ -61,7 +61,7 @@
         ports:
           - protocol: TCP
             port: 8081
-            targetPort: 8081
+            targetPort: 8080
         selector:
           app: my_container
         type: LoadBalancer
@@ -90,7 +90,7 @@
             - name: my-container
               image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
               ports:
-              - containerPort: 8081
+              - containerPort: 8080
   tasks:
     - name: Apply Kubernetes manifest files
       k8s:
