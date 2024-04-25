@@ -139,7 +139,7 @@
                 }
             }
             // Assigning External IP 
-            stage('Update Service with External IP') {
+          /*  stage('Update Service with External IP') {
                 steps {
                     script {
                         // Obtain external IP address from Load Balancer
@@ -152,7 +152,7 @@
                 }
             }    
 
-         }
+         }*/
 
         }
     }
