@@ -85,10 +85,10 @@
 
     - name: Copy Grafana dashboard JSON to Grafana provisioning directory
       copy:
-        src: "{{ jenkins_workspace }}/dashboard.json"
+        src: "/var/lib/jenkins/workspace/Industry_project@2/dashboard.json"
         dest: /etc/grafana/provisioning/dashboards/
       notify: restart grafana-server
-      ignore_errors: yes
+#      ignore_errors: yes
 
   handlers:
     - name: restart prometheus
