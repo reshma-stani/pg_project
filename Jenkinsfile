@@ -131,6 +131,8 @@
             stage('Run Ansible Playbook') {
                 environment {
                     ANSIBLE_LOG_PATH = '/var/log/jenkins/ansible-playbook.log'
+                    jenkins_workspace = "/var/lib/jenkins/workspace/Industry_project@2"
+
                 }
                 steps {
                     // Execute Ansible playbook
