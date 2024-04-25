@@ -58,9 +58,11 @@
     - name: Add Node Exporter target to Prometheus config
       lineinfile:
         dest: /etc/prometheus/prometheus.yml
-        line: '  - targets: ["localhost:9100"]'
+        line: '  - job_name: "node"'
+              '    static_configs:'
+              '      - targets: ["localhost:9100"]'
       notify: restart prometheus
-
+      
     - name: Install Grafana
       apt:
         name: grafana
