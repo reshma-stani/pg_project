@@ -78,6 +78,8 @@
         url: http://127.0.0.1:9090
         access: proxy
         type: prometheus
+        ds_type: prometheus
+        ds_url: http://127.0.0.1:9090
         state: present
       ignore_errors: yes
 
