@@ -31,25 +31,69 @@
   hosts: localhost
   gather_facts: false
   tasks:
-    - name: Copy monitoring.yaml to Kubernetes cluster
+    - name: Install Prometheus
+      apt:
+        name: prometheus
+        state: present
+
+    - name: Install Node Exporter
+      apt:
+        name: prometheus-node-exporter
+        state: present
+
+    - name: Start Prometheus service
+      service:
+        name: prometheus
+        state: started
+        enabled: yes
+
+    - name: Start Node Exporter service
+      service:
+        name: prometheus-node-exporter
+        state: started
+        enabled: yes
+
+    - name: Add Node Exporter target to Prometheus config
+      lineinfile:
+        dest: /etc/prometheus/prometheus.yml
+        line: '  - targets: ["localhost:9100"]'
+      notify: restart prometheus
+
+    - name: Install Grafana
+      apt:
+        name: grafana
+        state: present
+
+    - name: Start Grafana service
+      service:
+        name: grafana-server
+        state: started
+        enabled: yes
+
+    - name: Configure Grafana datasources
+      grafana_datasource:
+        name: Prometheus
+        url: http://localhost:9090
+        access: proxy
+        type: prometheus
+        state: present
+
+    - name: Copy Grafana dashboard JSON to Grafana provisioning directory
       copy:
-        src: monitoring.yaml
-        dest: /tmp/monitoring.yaml
+        src: "{{ jenkins_workspace }}/dashboard.json"
+        dest: /etc/grafana/provisioning/dashboards/
+      notify: restart grafana-server
 
-    - name: Apply monitoring.yaml
-      command: kubectl apply -f /tmp/monitoring.yaml
+  handlers:
+    - name: restart prometheus
+      service:
+        name: prometheus
+        state: restarted
 
-- name: Apply Grafana
-  hosts: localhost
-  gather_facts: false
-  tasks:
-    - name: Copy grafana.yaml to Kubernetes cluster
-      copy:
-        src: grafana.yaml
-        dest: /tmp/grafana.yaml
-
-    - name: Apply grafana.yaml
-      command: kubectl apply -f /tmp/grafana.yaml
+    - name: restart grafana-server
+      service:
+        name: grafana-server
+        state: restarted
 
 
 - name: Apply Kubernetes manifest files #Ansible invoking the manifest files
@@ -118,24 +162,24 @@
               ports:
               - containerPort: 8080
 
-    kube_ingress: |
-      apiVersion: networking.k8s.io/v1
-      kind: Ingress
-      metadata:
-        name: my-container-ingress
-        namespace: abc-clst
-      spec:
-        rules:
-          - host: "{{ LOAD_BALANCER_IP }}"
-            http:
-              paths:
-                - path: /abc_tech
-                  pathType: Prefix
-                  backend:
-                    service:
-                      name: my-container-service
-                      port:
-                        number: 80
+#    kube_ingress: |
+#      apiVersion: networking.k8s.io/v1
+#      kind: Ingress
+#      metadata:
+#        name: my-container-ingress
+#        namespace: abc-clst
+#      spec:
+#        rules:
+#          - host: "{{ LOAD_BALANCER_IP }}"
+#            http:
+#              paths:
+#                - path: /abc_tech
+#                  pathType: Prefix
+#                  backend:
+#                    service:
+#                      name: my-container-service
+#                      port:
+#                        number: 80
 
   tasks:
     - name: Apply Kubernetes manifest files
@@ -147,17 +191,5 @@
         - "{{ kube_pod }}"
         - "{{ kube_service }}"
         - "{{ kube_deployment }}"
-        - "{{ kube_ingress }}"
+#        - "{{ kube_ingress }}"
 
-#    - name: Wait for service to be available
-#      uri:
-#        url: "http://34.170.55.162:80"
-#        return_content: yes
-#      register: result
-#      until: result.status == 200
-#      retries: 10
-#      delay: 5
-#
-#    - name: Display result
-#      debug:
-#        var: result.content
