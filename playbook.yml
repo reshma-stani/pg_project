@@ -117,6 +117,26 @@
               image: "{{ DOCKER_IMAGE }}:{{ BUILD_NUMBER }}"
               ports:
               - containerPort: 8080
+
+kube_ingress: |
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: my-container-ingress
+        namespace: abc-clst
+      spec:
+        rules:
+          - host: loadBalancerIP
+            http:
+              paths:
+                - path: /abc_tech
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: my-container-service
+                      port:
+                        number: 80
+
   tasks:
     - name: Apply Kubernetes manifest files
       k8s:
@@ -127,6 +147,7 @@
         - "{{ kube_pod }}"
         - "{{ kube_service }}"
         - "{{ kube_deployment }}"
+        - "{{ kube_ingress }}"
 
 #    - name: Wait for service to be available
 #      uri:
